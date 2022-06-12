@@ -13,9 +13,11 @@ app.set("view engine", "ejs");
 app.use(morgan("dev"));
 
 //establecemos las rutas
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
     conectar();
-    var datos = urlModel.find();
+    var datos = await urlModel.find();
+    console.log(datos);
+
     res.render("index", { datos: datos });
 });
 
@@ -27,7 +29,6 @@ app.get("/urlpoto", async (req, res) => {
   await urlShort.save();
   res.redirect("/");
 });
-
 
 app.get("/:shortUrl", async (req, res) => {
     //encontrar el url y redirigir

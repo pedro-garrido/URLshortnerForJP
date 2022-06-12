@@ -14,21 +14,31 @@ app.use(morgan("dev"));
 
 //establecemos las rutas
 app.get("/", (req, res) => {
-  res.render("index.ejs");
+    conectar();
+    var datos = urlModel.find();
+    res.render("index", { datos: datos });
 });
 
 app.get("/urlpoto", async (req, res) => {
   conectar();
   const urlShort = new urlModel({
-    url: req.query.url,
+    url: req.query.Fullurl,
   });
   await urlShort.save();
-  res.send(req.query.Fullurl);
+  res.redirect("/");
 });
 
 
 app.get("/:shortUrl", async (req, res) => {
     //encontrar el url y redirigir
+    const url = await urlModel.findOne({ shortUrl: req.params.shortUrl });
+    if (url) {
+        url.clicks++;
+        await url.save();
+        res.redirect(url.url);
+    } else {
+        res.send("Url no encontrada");
+    }
 });
 
 app.listen(port, () => {

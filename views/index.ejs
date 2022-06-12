@@ -21,11 +21,13 @@
             </tr>
         </thead>
         <tbody>
+            <% datos.forEach(function(dato){ %>
             <tr>
-                <td><a href="http://www.google.com">http://www.google.com</a></td>
-                <td><a href="http://www.google.com">1234</a></td>
-                <td>0</td>
+                <td><a href="<%=dato.url%>"><%=dato.url%></a></td>
+                <td><a href="<%=dato.shortUrl%>"><%=dato.shortUrl%></a></td>
+                <td><%= dato.clicks%></td>
             </tr>
+            <% }) %>
         </tbody>
     </table>
 </body>
